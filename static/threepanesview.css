@@ -27,6 +27,23 @@
         max-width: initial;
     }
 
+    #threepanesviewcontainer > .resizer
+    {
+        width: 5px;
+        flex-grow: 0;
+        flex-shrink: 0;
+        overflow: visible;
+        cursor: col-resize;
+        background-color: var(--border-color, #ccc);
+        transition: background-color 0.2s;
+    }
+
+    #threepanesviewcontainer > .resizer:hover,
+    #threepanesviewcontainer > .resizer.resizing
+    {
+        background-color: var(--accent-color, #0066cc);
+    }
+
     /* See https://framagit.org/nicofrand/xextension-threepanesview/-/issues/29 */
     #threepanesviewcontainer .transition {
         display: flex;
@@ -119,5 +136,17 @@
     #threepanesview > .flux > .content .website .favicon
     {
         position: initial;
+    }
+
+    .resizer {
+        max-width: 5px;
+        width: 5px; /* Thin vertical handle */
+        background: #ddd;
+        cursor: ew-resize; /* Show horizontal resize cursor */
+        transition: background 0.2s;
+    }
+    
+    .resizer:hover {
+        background: #999; /* Darken on hover for visibility */
     }
 }

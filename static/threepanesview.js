@@ -20,6 +20,7 @@
         stream.insertAdjacentHTML("beforebegin", `<div id="threepanesviewcontainer"></div>`);
         var wrapper = document.getElementById("threepanesviewcontainer");
         wrapper.appendChild(stream);
+        wrapper.insertAdjacentHTML("beforeend", `<div class="resizer" id="resizer"></div>`);
         wrapper.insertAdjacentHTML("beforeend", `<div id="threepanesview"><div class="flux">${html}</div></div>`);
 
         // Set event listeners on the new panel (ex: click events to display labels, etc.)
@@ -31,6 +32,12 @@
         document.getElementById("stream").addEventListener("scroll", function(event) {
             window.dispatchEvent(new UIEvent(event.type, event))
         });
+
+        // Initialize resizer functionality
+        const resizer = document.getElementById('resizer');
+        const leftPane = document.getElementById('stream');
+        const rightPane = document.getElementById('threepanesview');
+        window.initThreePanesResizer(leftPane, rightPane, resizer);
 
         var _resize = function()
         {

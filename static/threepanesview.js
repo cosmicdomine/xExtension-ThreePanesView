@@ -20,6 +20,7 @@
         stream.insertAdjacentHTML("beforebegin", `<div id="threepanesviewcontainer"></div>`);
         var wrapper = document.getElementById("threepanesviewcontainer");
         wrapper.appendChild(stream);
+        wrapper.insertAdjacentHTML("beforeend", `<div class="resizer" id="resizer"></div>`);
         wrapper.insertAdjacentHTML("beforeend", `<div id="threepanesview"><div class="flux">${html}</div></div>`);
 
         // Set event listeners on the new panel (ex: click events to display labels, etc.)
@@ -31,6 +32,49 @@
         document.getElementById("stream").addEventListener("scroll", function(event) {
             window.dispatchEvent(new UIEvent(event.type, event))
         });
+
+        // MANUAL RESIZING
+        const resizer = document.getElementById('resizer');
+        const leftPane = document.getElementById('stream');
+        const rightPane = document.getElementById('threepanesview');
+        const container = document.getElementById('threepanesviewcontainer');
+        
+        let isResizing = false;
+        let startX;
+        let startLeftWidth;
+        let startRightWidth;
+        
+        resizer.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            startX = e.pageX;
+            startLeftWidth = leftPane.getBoundingClientRect().width;
+            startRightWidth = rightPane.getBoundingClientRect().width;
+            resizer.classList.add('resizing');
+            document.body.style.userSelect = 'none'; // Prevent text selection during resize
+        });
+        
+        document.addEventListener('mousemove', (e) => {
+            if (!isResizing) return;
+            
+            const dx = e.pageX - startX;
+            const newLeftWidth = startLeftWidth + dx;
+            const newRightWidth = startRightWidth - dx;
+            
+            // Prevent panes from becoming too small
+            if (newLeftWidth > 200 && newRightWidth > 200) {
+                leftPane.style.width = `${newLeftWidth}px`;
+                rightPane.style.width = `${newRightWidth}px`;
+            }
+        });
+        
+        document.addEventListener('mouseup', () => {
+            if (isResizing) {
+                isResizing = false;
+                resizer.classList.remove('resizing');
+                document.body.style.userSelect = '';
+            }
+        });
+// MANUAL RESIZING END
 
         var _resize = function()
         {

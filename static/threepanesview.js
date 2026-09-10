@@ -55,7 +55,8 @@
                 if (navEntries)
                     availableHeight -= navEntries.clientHeight;
 
-                menuForm.style.height = `${availableHeight}px`;
+                if (menuForm)
+                    menuForm.style.height = `${availableHeight}px`;
             }
 
         };
